@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시글 보기</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'posts/css/view_posts_style.css' %}">
+</head>
+<body>
+  <header>
+    <h6><img src="{% static 'posts/img/주차마크.png' %}" width="40" height="40"> 주차의 달인</h6>
+    <nav>
+      <h2>
+      <ul>
+        <li><a href="#">홈</a></li>
+        <li><a href="#">주변 주차장</a></li>
+        <li><a href="#">마이페이지</a></li>
+        <li><a href="#">로그아웃</a></li>
+      </ul>
+      </h2>
+    </nav>
+  </header>
+  <main>
+    <section class="intro">
+    </section>
+    <div class="container">
+      <section class="post-view">
+          <h2>{{ question.subject }}</h2>
+<div>
+    {{ question.content }}
+</div>
+      </section>
+      <section class="comments">
+        <h2>댓글</h2>
+        <ul>
+          <li>
+            <p>댓글 내용 1</p>
+            <p>작성자: 댓글 작성자명</p>
+            <p>작성일: 2024년 5월 18일</p>
+          </li>
+          <!-- 추가 댓글 항목 -->
+        </ul>
+        <form>
+          <div>
+            <label for="comment-content">댓글 작성</label>
+            <textarea id="comment-content" name="comment-content" rows="4"></textarea>
+          </div>
+          <button type="submit">작성</button>
+        </form>
+      </section>
+    </div>
+  </main>
+  <footer>
+    <h4>
+      <p>&copy; 2024 한이음 빌라 &nbsp;&nbsp; &phone;&nbsp; 010-xxxx-xxxx &nbsp;&nbsp; email: admin@example.com </p>
+    </h4>
+  </footer>
+</body>
+</html>

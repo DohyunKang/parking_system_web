@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한이음 빌라 주차장 현황</title>
+     {% load static %}
+  <link rel="stylesheet" href="{% static 'parking_status/css/status_style.css' %}">
+</head>
+<body>
+<header>
+<h1><img src="{% static 'parking_status/img/주차마크.png' %}" width="40" height="40"> 주차의 달인</h1>
+    <h3>
+    <nav>
+      <ul>
+         {% if user.is_authenticated %}
+        <li><a href="{% url 'home:index' %}">홈</a></li>
+        <li><a href="#">주변 주차장</a></li>
+        <li><a href="{% url 'mypage:mypage' %}">{{ user.username }}의 마이페이지</a></li>
+        <li><a href="{% url 'login:logout' %}">로그아웃</a></li>
+        {% endif %}
+        {% if not user.is_authenticated %}
+        <li><a href="{% url 'home:index' %}">홈</a></li>
+        <li><a href="{% url 'login:login' %}">로그인</a></li>
+        <li><a href="{% url 'find:find' %}">아이디/비밀번호 찾기</a></li>
+        <li>{% if not user.is_authenticated %}<a href="{% url 'signup:signup' %}">회원가입</a>{% endif %}</li>
+        {% endif %}
+      </ul>
+    </nav>
+    </h3>
+    </header>
+{% if user.is_authenticated %}
+    <div class="container">
+        <div class="header2">
+            <h2>한이음 빌라 주차장 현황</h2>
+        </div>
+        <div class="main">
+            <div class="parking-info">
+                <p><h1>[ 한이음 빌라 ]</h1></p> <img src="{% static 'parking_status/img/주차현황.jpg' %}" width="500" height="500">
+                <th><h4>  &nbsp; &nbsp; 외부차량 주차 :</h4></th>
+                <th><h5>&nbsp; 거주인 차량 주차 :</h5></th>
+                <th><h6>&nbsp;현재 남은 주차 공간 :</h6></th>
+            </div>
+            <div class="car-list">
+                <h2>[ 외부차량 현황 ]</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th><h2>차량 번호</h2></th>
+                            <th><h2>주차 시간</h2></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><h5>12가 3456</h5></td>
+                            <td><h5>2024년 5월 19일 15:00</h5></td>
+                        </tr>
+                        <tr>
+                            <td><h5>34가 5678</h5></td>
+                            <td><h5>2024년 5월 19일 15:00</h5></td>
+                        </tr>
+                        <tr>
+                            <td><h5>56가 7890</h5></td>
+                            <td><h5>2024년 5월 19일 15:00</h5></td>
+                        </tr>
+                        <tr>
+                            <td><h5>78가 9012</h5></td>
+                            <td><h5>2024년 5월 19일 15:00</h5></td>
+                        </tr>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+<h3>
+    {% endif %}
+    {% if not user.is_authenticated %}
+    <section class="intro2">
+       <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;
+           로그인 후 이용 바랍니다.</h3>
+    </section>
+    {% endif %}
+<footer>
+    <p>&copy; 2024 한이음 빌라 &nbsp;&nbsp; &phone;&nbsp; 010-xxxx-xxxx &nbsp;&nbsp; email: admin@example.com </p>
+  </footer>
+</h3>
+</body>
+</html>
