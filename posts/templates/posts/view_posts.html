@@ -45,8 +45,9 @@
         {% endif %}
         <!-- 질문 -->
         <h2 class="border-bottom py-2"> 제목 : {{ question.subject }} </h2>
-        <a href="{% url 'posts:index' %}"class="btn btn-sm btn-outline-secondary">게시판 목록</a>
-        <h4>[ 작성자 ] : {{ question.author.username }}</h4>
+        <a href="{% url 'posts:index' %}"class="btn btn-sm btn-outline-secondary">게시글 목록</a>
+        <h4>[ 작성자 ] : {{ question.author.nickname }}
+          &nbsp;[ 차량번호 ] : {{ question.author.car_number }}</h4>
         <div class="card my-3">
           <div class="card-body">
             <div class="card-text">{{ question.content|mark }}</div>
@@ -58,7 +59,8 @@
               </div>
               {% endif %}
               <div class="badge bg-light text-dark p-2 text-start">
-                <div class="mb-2">{{ question.author.username }}</div>
+                <div class="mb-2">{{ question.author.nickname }}</div>
+                <div class="mb-2">{{ question.author.car_number }}</div>
                 <div>{{ question.create_date }}</div>
               </div>
             </div>
@@ -77,9 +79,9 @@
           </div>
         </div>
         <!-- 답변 -->
-        <h2 class="border-bottom my-3 py-2">{{question.answer_set.count}}개의 댓글이 있습니다.</h2>
+        <h2 class="border-bottom my-3 py-2">{{answer_list.paginator.count}}개의 댓글이 있습니다.</h2>
         <div>
-          {% for answer in question.answer_set.all %}
+          {% for answer in answer_list %}
           <a id="answer_{{ answer.id }}"></a>
           <div class="card my-3">
             <div class="card-body">
@@ -92,7 +94,8 @@
                 </div>
                 {% endif %}
                 <div class="badge bg-light text-dark p-2 text-start">
-                  <div class="mb-2">{{ answer.author.username }}</div>
+                  <div class="mb-2">{{ answer.author.nickname }}</div>
+                  <div class="mb-2">{{ answer.author.car_number }}</div>
                   <div>{{ answer.create_date }}</div>
                 </div>
               </div>
@@ -111,7 +114,7 @@
                 <div class="mt-3">
                   {% for comment in answer.comment_set.all %}
                   <div class="comment py-2 text-muted">
-                    <span style="white-space: pre-line;"> &#187; {{ comment.author }}님의 답글 : {{ comment.content }}</span>
+                    <span style="white-space: pre-line;"> &#187; {{ comment.author.nickname }}님의 답글 : {{ comment.content }}</span>
                     <span>
                       - {{ comment.create_date }}
                       {% if comment.modify_date %}
@@ -137,6 +140,44 @@
           </div>
           {% endfor %}
         </div>
+        <!-- 페이징 처리 -->
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            {% if answer_list.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ answer_list.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+              <span class="page-link" aria-hidden="true">&laquo;</span>
+            </li>
+            {% endif %}
+            {% for page_num in answer_list.paginator.page_range %}
+            {% if answer_list.number == page_num %}
+            <li class="page-item active">
+              <span class="page-link">{{ page_num }} <span class="sr-only"></span></span>
+            </li>
+            {% elif page_num > answer_list.number|add:-3 and page_num < answer_list.number|add:3 %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+            {% if answer_list.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ answer_list.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+              <span class="page-link" aria-hidden="true">&raquo;</span>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
       </div>
     </div>
     <!-- 댓글 작성 폼을 컨테이너 밖으로 이동 -->
@@ -184,7 +225,14 @@
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;
       <input type="submit" value="댓글 작성" class="btn btn-primary">
     </form>
     {% endif %}

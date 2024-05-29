@@ -1,18 +1,23 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from .forms import UserForm
-
+from .forms import CustomUserCreationForm
 
 def signup(request):
     if request.method == "POST":
-        form = UserForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
+            user = form.save()
+            user.refresh_from_db()  # Load the profile instance created by the signal
+            user.first_name = form.cleaned_data.get('first_name')
+            user.last_name = form.cleaned_data.get('last_name')
+            user.nickname = form.cleaned_data.get('nickname')
+            user.car_number = form.cleaned_data.get('car_number')
+            user.email = form.cleaned_data.get('email')
+            user.save()
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)  # 사용자 인증
-            login(request, user)  # 로그인
-            return redirect('home:index')
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
+            return redirect('home:before_index')
     else:
-        form = UserForm()
+        form = CustomUserCreationForm()
     return render(request, 'signup/signup.html', {'form': form})

@@ -23,7 +23,7 @@ def index(request):
             Q(subject__icontains=kw) |  # 제목 검색
             Q(content__icontains=kw) |  # 내용 검색
             Q(answer__content__icontains=kw) |  # 답변 내용 검색
-            Q(author__username__icontains=kw) |  # 질문 글쓴이 검색
+            Q(author__nickname__icontains=kw) |  # 질문 글쓴이 검색
             Q(answer__author__username__icontains=kw)  # 답변 글쓴이 검색
         ).distinct()
     paginator = Paginator(question_list, 10)  # 페이지당 10개씩 보여주기
@@ -32,8 +32,15 @@ def index(request):
     return render(request, 'board1/board_list.html', context)
 
 def detail(request, question_id):
-    question = Question.objects.get(id=question_id)
-    context = {'question': question}
+    question = get_object_or_404(Question, pk=question_id)
+    page = request.GET.get('page', '1')  # 페이지
+    answer_list = question.answer_set.all().order_by('-create_date')
+    # 댓글 페이징 처리
+    page = request.GET.get('page', '1')
+    paginator = Paginator(answer_list, 5)  # 페이지당 5개씩 보여주기
+    page_obj = paginator.get_page(page)
+
+    context = {'question': question, 'answer_list': page_obj}
     return render(request, 'posts/view_posts.html', context)
 @login_required(login_url='login:login')
 def answer_create(request, question_id):

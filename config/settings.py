@@ -52,9 +52,12 @@ INSTALLED_APPS = [
     'login',
     'parking_status',
     'posts',
+    'posts2',
+    'posts3',
     'mypage',
     'signup',
-    'find'
+    'find',
+    'timeset',
 ]
 
 MIDDLEWARE = [

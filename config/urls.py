@@ -21,14 +21,17 @@ from parking.home import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
-    path('', include('board.urls')),
+    path('bord/', include('board.urls')),
     path('parking_status/', include('parking_status.urls')),
     path('posts/', include('posts.urls')),
+    path('posts2/', include('posts2.urls')),
+    path('posts3/', include('posts3.urls')),
     path('mypage/', include('mypage.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('login/login/', include('login.urls')),
     path('signup/', include('signup.urls')),
     path('find/', include('find.urls')),
     path('chat/', include('chat.urls')),
+    path('time_set/', include('timeset.urls')),
     path('', views.index, name='index'),  # '/' 에 해당되는 path
 ]

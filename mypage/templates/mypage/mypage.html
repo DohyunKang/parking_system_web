@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>한이음 빌라 마이페이지</title>
     {% load static %}
-  <link rel="stylesheet" href="{% static 'mypage/css/mypage_style.css' %}">
+    <link rel="stylesheet" href="{% static 'mypage/css/mypage_style.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap2.min.css' %}">
 </head>
 <body>
@@ -30,32 +30,21 @@
                 <div class="profile-picture">
                     <img src="{% static 'mypage/img/프로필사진.png' %}" alt="프로필 사진">
                 </div>
+                <div><button class="edit-profile">프로필사진 수정</button></div>
                 <div class="profile-name">
-                    <h2>{{ user.username }}</h2>
-                    <button class="edit-profile">Edit Profile</button>
+                    <h2>[ {{ user.nickname }} ]</h2>
+                    <label>이름 : {{ user.first_name }}{{ user.last_name }}</label>
+                    <label>차량 번호 : {{ user.car_number }}</label>
+                    <label>이메일 : {{ user.email }}</label>
                 </div>
             </div>
             <section class="update-details">
-                <h2>Update Details</h2>
-                <p>Fill in the required information.</p>
-                <form>
-                    <div>
-                        <label for="first_name">성</label>
-                        <input type="text" id="first_name" name="first_name" placeholder="Fill in your first_name" required>
-                    </div>
-                    <div>
-                        <label for="last_name">이름</label>
-                        <input type="text" id="last_name" name="last_name" placeholder="Fill in your last_name" required>
-                    </div>
-                    <div>
-                        <label for="car_number">차량번호</label>
-                        <input type="text" id="car_number" name="car_number" placeholder="Fill in your car_number" required>
-                    </div>
-                    <div>
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="eg.example@sample.com" required>
-                    </div>
-                    <button type="submit">Save Changes</button>
+                <h2>&nbsp;&nbsp;&nbsp;Update Details</h2>
+                <p>정보를 입력하여 수정하세요.</p>
+                <form method="post" action="{% url 'mypage:mypage' %}" id="update-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="button" id="save-changes" class="btn btn-primary">변경하기</button>
                 </form>
             </section>
         </section>
@@ -65,5 +54,19 @@
             <p>&copy; 2024 한이음 빌라 &nbsp;&nbsp; &phone;&nbsp; 010-xxxx-xxxx &nbsp;&nbsp; email: admin@example.com </p>
         </h4>
     </footer>
+    {% block script %}
+        <script type='text/javascript'>
+            document.getElementById('save-changes').addEventListener('click', function() {
+                if (confirm("정말 바꾸시겠습니까?")) {
+                    document.getElementById('update-form').submit();
+                }
+            });
+            {% if messages %}
+                {% for message in messages %}
+                    alert("{{ message }}");
+                {% endfor %}
+            {% endif %}
+        </script>
+    {% endblock %}
 </body>
 </html>
