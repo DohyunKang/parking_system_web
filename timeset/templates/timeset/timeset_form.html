@@ -11,7 +11,7 @@
 <body>
 <header>
     <h1><img src="{% static 'home/img/주차마크.png' %}" width="40" height="40"> 주차의 달인</h1>
-    <nav>
+    <nav><h2>
         <ul>
             {% if user.is_authenticated %}
             <li><a href="{% url 'home:index' %}">홈</a></li>
@@ -26,6 +26,7 @@
             <li>{% if not user.is_authenticated %}<a href="{% url 'signup:signup' %}">회원가입</a>{% endif %}</li>
             {% endif %}
         </ul>
+    </h2>
     </nav>
 </header>
 <main>
