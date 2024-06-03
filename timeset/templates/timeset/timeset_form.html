@@ -15,7 +15,7 @@
         <ul>
             {% if user.is_authenticated %}
             <li><a href="{% url 'home:index' %}">홈</a></li>
-            <li><a href="#">주변 주차장</a></li>
+            <li><a href="{% url 'home:nearby_parking' %}">주변 주차장</a></li>
             <li><a href="{% url 'mypage:mypage' %}">{{ user.username }}의 마이페이지</a></li>
             <li><a href="{% url 'login:logout' %}">로그아웃</a></li>
             {% endif %}

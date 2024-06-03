@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect
 
 def index(request):
@@ -6,3 +5,5 @@ def index(request):
 def before_index(request):
     return render(request, 'home/before_index.html')
 
+def nearby_parking(request):
+    return render(request, 'home/nearby_parking.html')
